@@ -1,0 +1,9 @@
++=High priority, -=Low priority, *=I'll get to it at some point
+
++ Add script to automatically resize root filesystem on first boot
++ Add script to configure swap on first boot or configure it during image creation
++ Add script to generate SSH host keys on first boot
++ Create documentation on image creation and setup
+- Create a Raspberry Pi-themed user instead of "ubuntu"
+- Install all necessary tools at begining of image creation script
+
