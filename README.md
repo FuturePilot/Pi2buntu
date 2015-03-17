@@ -2,10 +2,8 @@
 ###TL;DR
 This is a script for creating a minimal Ubuntu image for the Raspberry Pi 2. This script only supports the Raspberry Pi 2 as it uses the Ubuntu armhf port which is optimized for armv7.
 
-If you just want an image and don't want to mess around with creating your own, see the release page.
-
+If you just want an image and don't want to mess around with creating your own, see the [release page](https://github.com/FuturePilot/Pi2buntu/releases).
 **Default User:** ubuntu
-
 **Default Password:** ubuntu
 
 **Note:** This image is intended for advanced users. It has no GUI. If you are not comfortable with the command line this image is not for you.
@@ -29,3 +27,6 @@ There are a few custom tweaks that have been included
  As mentioned above the kernel and firmware are handled through the PPA. rpi-update is not needed
  - raspi-config
  There is no raspi-config so any of the things that it does will need to be done manually. However porting it over is something I would like to do eventually.
+
+###Special Thanks
+Not all of this is my work so this is to give credit where credit is due.
