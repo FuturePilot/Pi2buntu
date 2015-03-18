@@ -55,7 +55,8 @@ mount -t proc none $R/proc
 mount -t sysfs none $R/sys
 
 # Prepair for foreign chroot
-cp /usr/bin/qemu-arm-static $R/usr/bin/
+# This shouldn't be needed anymore because of qemu-debootstrap
+# cp /usr/bin/qemu-arm-static $R/usr/bin/
 
 # Set up initial sources.list
 if [ -n "$LOCAL_MIRROR" ]; then
