@@ -19,6 +19,9 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 ########################################################################
 
+# This is a stub from rpi-build-image.sh. Useful for rebuilding the image after making minor changes that don't 
+# require the entire chroot be rebuilt
+
 set -e
 set -x
 
