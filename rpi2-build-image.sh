@@ -127,9 +127,9 @@ ff02::2         ip6-allrouters
 EOM
 
 # Set up default user
-chroot $R $SHELL -c "adduser --gecos 'Ubuntu user' --add_extra_groups --disabled-password ubuntu"
+chroot $R $SHELL -c "adduser --gecos 'Raspberry Pi' --add_extra_groups --disabled-password pi"
 # Escape $s
-chroot $R $SHELL -c "usermod -a -G sudo,adm -p '\$6\$iTPEdlv4\$HSmYhiw2FmvQfueq32X30NqsYKpGDoTAUV2mzmHEgP/1B7rV3vfsjZKnAWn6M2d.V2UsPuZ2nWHg1iqzIu/nF/' ubuntu"
+chroot $R $SHELL -c "usermod -a -G sudo,adm -p '\$6\$OPqOymJb94Nigm2N\$eKgV1B5x.QymW0cR4gKzP6GRdqx3Pi0lvJv6slITN8INP4vWg6bRFvgE6HrzaV52q4ph/L6pQoK8f3G4uFBWI/' pi"
 
 # Restore standard sources.list if a local mirror was used
 if [ -n "$LOCAL_MIRROR" ]; then
