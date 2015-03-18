@@ -97,7 +97,7 @@ chroot $R $SHELL -c "apt-add-repository -y ppa:fo0bar/rpi2"
 chroot $R $SHELL -c "apt-get update"
 
 # Standard packages
-chroot $R $SHELL -c "apt-get -y install ubuntu-standard initramfs-tools raspberrypi-bootloader-nokernel language-pack-en openssh-server wpasupplicant linux-firmware libraspberrypi-bin libraspberrypi-bin-nonfree dphys-swapfile"
+chroot $R $SHELL -c "apt-get -y install ubuntu-standard initramfs-tools raspberrypi-bootloader-nokernel language-pack-en openssh-server wpasupplicant linux-firmware libraspberrypi-bin libraspberrypi-bin-nonfree dphys-swapfile fake-hwclock"
 
 # Kernel installation
 # Install flash-kernel last so it doesn't try (and fail) to detect the
