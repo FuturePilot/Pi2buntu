@@ -231,6 +231,11 @@ blacklist snd_soc_tas5713
 blacklist snd_soc_wm8804
 EOM
 
+# Configure swap
+rm $R/var/swap
+# Set swap to 500 MB
+sed -i 's/#CONF_SWAPSIZE=/CONF_SWAPSIZE=500/' $R/etc/dphys-swapfile
+
 # Set up first boot scripts
 cat <<EOM > $R/etc/rc.local
 #!/bin/sh
