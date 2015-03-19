@@ -237,6 +237,8 @@ blacklist snd_soc_wm8804
 EOM
 
 # Configure swap
+chroot $R $SHELL -c '/etc/init.d/dphys-swapfile stop'
+rm -f $R/var/swap
 # Set swap to 500 MB
 sed -i 's/#CONF_SWAPSIZE=/CONF_SWAPSIZE=500/' $R/etc/dphys-swapfile
 
@@ -307,7 +309,6 @@ rm -f $R/var/lib/urandom/random-seed
 rm -f $R/etc/machine-id
 rm -f $R/usr/bin/qemu-arm-static
 rm -f $R/etc/ssh/ssh_host_*
-rm -f $R/var/swap
 
 # Build the image file
 # Currently hardcoded to a 1.75GiB image
