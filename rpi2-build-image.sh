@@ -131,6 +131,11 @@ chroot $R $SHELL -c "adduser --gecos 'Raspberry Pi' --add_extra_groups --disable
 # Escape $s
 chroot $R $SHELL -c "usermod -a -G sudo,adm -p '\$6\$OPqOymJb94Nigm2N\$eKgV1B5x.QymW0cR4gKzP6GRdqx3Pi0lvJv6slITN8INP4vWg6bRFvgE6HrzaV52q4ph/L6pQoK8f3G4uFBWI/' pi"
 
+# We want to configure the time zone on first login
+cp $R/home/pi/.profile $R/home/pi/.profile_new
+cat ./configs/profile > $R/home/pi/.profile
+chroot $R $SHELL -c "chown 1000:1000 /home/pi/.profile*"
+
 # Restore standard sources.list if a local mirror was used
 if [ -n "$LOCAL_MIRROR" ]; then
   cat <<EOM >$R/etc/apt/sources.list
