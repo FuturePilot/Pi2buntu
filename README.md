@@ -4,9 +4,9 @@ This is a script for creating a minimal Ubuntu image for the Raspberry Pi 2. Thi
 
 If you just want an image and don't want to mess around with creating your own, see the [release page](https://github.com/FuturePilot/Pi2buntu/releases).
 
-**Default User:** ubuntu
+**Default User:** pi
 
-**Default Password:** ubuntu
+**Default Password:** Raspberry
 
 **Note:** This image is intended for advanced users. It has no GUI. If you are not comfortable with the command line this image is not for you.
 
