@@ -59,22 +59,7 @@ mount -t sysfs none $R/sys
 # cp /usr/bin/qemu-arm-static $R/usr/bin/
 
 # Set up initial sources.list
-if [ -n "$LOCAL_MIRROR" ]; then
-  cat <<EOM >$R/etc/apt/sources.list
-deb ${LOCAL_MIRROR} ${RELEASE} main restricted universe multiverse
-# deb-src ${LOCAL_MIRROR} ${RELEASE} main restricted universe multiverse
-
-deb ${LOCAL_MIRROR} ${RELEASE}-updates main restricted universe multiverse
-# deb-src ${LOCAL_MIRROR} ${RELEASE}-updates main restricted universe multiverse
-
-deb ${LOCAL_MIRROR} ${RELEASE}-security main restricted universe multiverse
-# deb-src ${LOCAL_MIRROR} ${RELEASE}-security main restricted universe multiverse
-
-deb ${LOCAL_MIRROR} ${RELEASE}-backports main restricted universe multiverse
-# deb-src ${LOCAL_MIRROR} ${RELEASE}-backports main restricted universe multiverse
-EOM
-else
-  cat <<EOM >$R/etc/apt/sources.list
+cat <<EOM >$R/etc/apt/sources.list
 deb http://ports.ubuntu.com/ ${RELEASE} main restricted universe multiverse
 # deb-src http://ports.ubuntu.com/ ${RELEASE} main restricted universe multiverse
 
@@ -87,7 +72,7 @@ deb http://ports.ubuntu.com/ ${RELEASE}-security main restricted universe multiv
 deb http://ports.ubuntu.com/ ${RELEASE}-backports main restricted universe multiverse
 # deb-src http://ports.ubuntu.com/ ${RELEASE}-backports main restricted universe multiverse
 EOM
-fi
+
 chroot $R $SHELL -c "apt-get update"
 chroot $R $SHELL -c "apt-get -y -u dist-upgrade"
 
@@ -135,24 +120,6 @@ chroot $R $SHELL -c "usermod -a -G sudo,adm -p '\$6\$OPqOymJb94Nigm2N\$eKgV1B5x.
 cp $R/home/pi/.profile $R/home/pi/.profile_new
 cat ./configs/profile > $R/home/pi/.profile
 chroot $R $SHELL -c "chown 1000:1000 /home/pi/.profile*"
-
-# Restore standard sources.list if a local mirror was used
-if [ -n "$LOCAL_MIRROR" ]; then
-  cat <<EOM >$R/etc/apt/sources.list
-deb http://ports.ubuntu.com/ ${RELEASE} main restricted universe multiverse
-# deb-src http://ports.ubuntu.com/ ${RELEASE} main restricted universe multiverse
-
-deb http://ports.ubuntu.com/ ${RELEASE}-updates main restricted universe multiverse
-# deb-src http://ports.ubuntu.com/ ${RELEASE}-updates main restricted universe multiverse
-
-deb http://ports.ubuntu.com/ ${RELEASE}-security main restricted universe multiverse
-# deb-src http://ports.ubuntu.com/ ${RELEASE}-security main restricted universe multiverse
-
-deb http://ports.ubuntu.com/ ${RELEASE}-backports main restricted universe multiverse
-# deb-src http://ports.ubuntu.com/ ${RELEASE}-backports main restricted universe multiverse
-EOM
-chroot $R $SHELL -c "apt-get update"
-fi
 
 # Clean cached downloads
 chroot $R $SHELL -c "apt-get clean"
