@@ -55,19 +55,7 @@ mount -t sysfs none $R/sys
 # cp /usr/bin/qemu-arm-static $R/usr/bin/
 
 # Set up initial sources.list
-cat <<EOM >$R/etc/apt/sources.list
-deb http://ports.ubuntu.com/ ${RELEASE} main restricted universe multiverse
-# deb-src http://ports.ubuntu.com/ ${RELEASE} main restricted universe multiverse
-
-deb http://ports.ubuntu.com/ ${RELEASE}-updates main restricted universe multiverse
-# deb-src http://ports.ubuntu.com/ ${RELEASE}-updates main restricted universe multiverse
-
-deb http://ports.ubuntu.com/ ${RELEASE}-security main restricted universe multiverse
-# deb-src http://ports.ubuntu.com/ ${RELEASE}-security main restricted universe multiverse
-
-deb http://ports.ubuntu.com/ ${RELEASE}-backports main restricted universe multiverse
-# deb-src http://ports.ubuntu.com/ ${RELEASE}-backports main restricted universe multiverse
-EOM
+cat ./configs/sources.list > $R/etc/apt/sources.list
 
 chroot $R $SHELL -c "apt-get update"
 chroot $R $SHELL -c "apt-get -y -u dist-upgrade"
