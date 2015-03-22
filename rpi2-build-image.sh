@@ -78,11 +78,7 @@ VMLINUZ="$(ls -1 $R/boot/vmlinuz-* | sort | tail -n 1)"
 cp $VMLINUZ $R/boot/firmware/kernel7.img
 
 # Set up fstab
-cat <<EOM >$R/etc/fstab
-proc            /proc           proc    defaults          0       0
-/dev/mmcblk0p2  /               ext4    defaults,noatime  0       1
-/dev/mmcblk0p1  /boot/firmware  vfat    defaults          0       2
-EOM
+cat ./configs/fstab > $R/etc/fstab
 
 # Set up hosts
 echo raspberry-pi2 >$R/etc/hostname
