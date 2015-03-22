@@ -81,15 +81,8 @@ cp $VMLINUZ $R/boot/firmware/kernel7.img
 cat ./configs/fstab > $R/etc/fstab
 
 # Set up hosts
-echo raspberry-pi2 >$R/etc/hostname
-cat <<EOM >$R/etc/hosts
-127.0.0.1       localhost
-::1             localhost ip6-localhost ip6-loopback
-ff02::1         ip6-allnodes
-ff02::2         ip6-allrouters
-
-127.0.1.1       raspberry-pi2
-EOM
+echo raspberry-pi2 > $R/etc/hostname
+cat ./configs/hosts > $R/etc/hosts
 
 # Set up default user
 chroot $R $SHELL -c "adduser --gecos 'Raspberry Pi' --add_extra_groups --disabled-password pi"
