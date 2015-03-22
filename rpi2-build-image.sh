@@ -26,10 +26,6 @@ RELEASE=utopic
 BASEDIR=/srv/rpi2/${RELEASE}
 BUILDDIR=${BASEDIR}/build
 SHELL=/bin/bash
-# I use a local caching proxy to save time/bandwidth; in this mode, the
-# local mirror is used to download almost everything, then the standard
-# http://ports.ubuntu.com/ is replaced at the end for distribution.
-#LOCAL_MIRROR=""
 
 # Don't clobber an old build
 if [ -e "$BUILDDIR" ]; then
