@@ -119,32 +119,7 @@ rm -f $R/var/swap
 sed -i 's/#CONF_SWAPSIZE=/CONF_SWAPSIZE=500/' $R/etc/dphys-swapfile
 
 # Set up first boot scripts
-cat <<EOM > $R/etc/rc.local
-#!/bin/sh
-#
-# rc.local
-#
-# This script is executed at the end of each multiuser runlevel.
-# Make sure that the script will "exit 0" on success or any other
-# value on error.
-#
-# In order to enable or disable this script just change the execution
-# bits.
-#
-# By default this script does nothing.
-
-if [ -e /root/first_boot ]; then
-  echo "Running first boot scripts..."
-  echo "Resizing root fs"
-  /root/resize_rootfs.sh
-  echo "Generating SSH host keys"
-  dpkg-reconfigure openssh-server
-  rm /root/first_boot
-  echo "Done"
-fi
-
-exit 0
-EOM
+cat ./configs/etc/rc.local > $R/etc/rc.local
 
 cat <<EOM > $R/root/resize_rootfs.sh
 #!/bin/bash
