@@ -107,18 +107,10 @@ echo 'dwc_otg.lpm_enable=0 console=tty1 root=/dev/mmcblk0p2 rootwait' > $R/boot/
 ln -sf firmware/cmdline.txt $R/boot/cmdline.txt
 
 # Load sound module on boot
-cat <<EOM >$R/lib/modules-load.d/rpi2.conf
-snd_bcm2835
-bcm2708_rng
-EOM
+cat ./configs/lib/modules-load.d/rpi2.conf > $R/lib/modules-load.d/rpi2.conf
 
 # Blacklist platform modules not applicable to the RPi2
-cat <<EOM >$R/etc/modprobe.d/rpi2.conf
-blacklist snd_soc_pcm512x_i2c
-blacklist snd_soc_pcm512x
-blacklist snd_soc_tas5713
-blacklist snd_soc_wm8804
-EOM
+cat ./configs/etc/modprobe.d/rpi2.conf > $R/etc/modprobe.d/rpi2.conf
 
 # Configure swap
 chroot $R $SHELL -c '/etc/init.d/dphys-swapfile stop'
