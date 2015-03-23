@@ -55,7 +55,7 @@ mount -t sysfs none $R/sys
 # cp /usr/bin/qemu-arm-static $R/usr/bin/
 
 # Set up initial sources.list
-cat ./configs/sources.list > $R/etc/apt/sources.list
+cat ./configs/etc/apt/sources.list > $R/etc/apt/sources.list
 
 chroot $R $SHELL -c "apt-get update"
 chroot $R $SHELL -c "apt-get -y -u dist-upgrade"
@@ -78,11 +78,11 @@ VMLINUZ="$(ls -1 $R/boot/vmlinuz-* | sort | tail -n 1)"
 cp $VMLINUZ $R/boot/firmware/kernel7.img
 
 # Set up fstab
-cat ./configs/fstab > $R/etc/fstab
+cat ./configs/etc/fstab > $R/etc/fstab
 
 # Set up hosts
 echo raspberry-pi2 > $R/etc/hostname
-cat ./configs/hosts > $R/etc/hosts
+cat ./configs/etc/hosts > $R/etc/hosts
 
 # Set up default user
 chroot $R $SHELL -c "adduser --gecos 'Raspberry Pi' --add_extra_groups --disabled-password pi"
@@ -91,17 +91,17 @@ chroot $R $SHELL -c "usermod -a -G sudo,adm -p '\$6\$OPqOymJb94Nigm2N\$eKgV1B5x.
 
 # We want to configure the time zone on first login
 cp $R/home/pi/.profile $R/home/pi/.profile_new
-cat ./configs/profile > $R/home/pi/.profile
+cat ./configs/home/pi/dotprofile > $R/home/pi/.profile
 chroot $R $SHELL -c "chown 1000:1000 /home/pi/.profile*"
 
 # Clean cached downloads
 chroot $R $SHELL -c "apt-get clean"
 
 # Set up interfaces
-cat ./configs/interfaces > $R/etc/network/interfaces
+cat ./configs/etc/network/interfaces > $R/etc/network/interfaces
 
 # Set up firmware config
-cat ./configs/config.txt > $R/boot/firmware/config.txt
+cat ./configs/boot/firmware/config.txt > $R/boot/firmware/config.txt
 ln -sf firmware/config.txt $R/boot/config.txt
 echo 'dwc_otg.lpm_enable=0 console=tty1 root=/dev/mmcblk0p2 rootwait' > $R/boot/firmware/cmdline.txt
 ln -sf firmware/cmdline.txt $R/boot/cmdline.txt
