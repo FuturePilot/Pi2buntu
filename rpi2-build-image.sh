@@ -121,24 +121,7 @@ sed -i 's/#CONF_SWAPSIZE=/CONF_SWAPSIZE=500/' $R/etc/dphys-swapfile
 # Set up first boot scripts
 cat ./configs/etc/rc.local > $R/etc/rc.local
 
-cat <<EOM > $R/root/resize_rootfs.sh
-#!/bin/bash
-fdisk /dev/mmcblk0 <<EOF
-d
-2
-n
-p
-2
-133120
-
-p
-w
-EOF
-
-partprobe /dev/mmcblk0
-
-resize2fs /dev/mmcblk0p2
-EOM
+cat ./configs/root/resize_rootfs.sh > $R/root/resize_rootfs.sh
 
 chmod +x $R/root/resize_rootfs.sh
 touch $R/root/first_boot
