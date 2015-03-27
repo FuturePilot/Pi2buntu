@@ -118,8 +118,6 @@ cat ./configs/lib/modules-load.d/rpi2.conf > $R/lib/modules-load.d/rpi2.conf
 cat ./configs/etc/modprobe.d/rpi2.conf > $R/etc/modprobe.d/rpi2.conf
 
 # Configure swap
-chroot $R $SHELL -c '/etc/init.d/dphys-swapfile stop'
-rm -f $R/var/swap
 # Set swap to 500 MB
 sed -i 's/#CONF_SWAPSIZE=/CONF_SWAPSIZE=500/' $R/etc/dphys-swapfile
 
