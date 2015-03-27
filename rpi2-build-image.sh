@@ -57,6 +57,11 @@ mount -t sysfs none $R/sys
 # Set up initial sources.list
 cat ./configs/etc/apt/sources.list > $R/etc/apt/sources.list
 
+# Prevent daemons from starting up
+cat ./configs/usr/sbin/policy-rc.d > $R/usr/sbin/policy-rc.d
+chmod +x $R/usr/sbin/policy-rc.d
+
+# Initial update/upgrade
 chroot $R $SHELL -c "apt-get update"
 chroot $R $SHELL -c "apt-get -y -u dist-upgrade"
 
@@ -143,6 +148,7 @@ rm -f $R/var/lib/urandom/random-seed
 rm -f $R/etc/machine-id
 rm -f $R/usr/bin/qemu-arm-static
 rm -f $R/etc/ssh/ssh_host_*
+rm -fr $R/usr/sbin/policy-rc.d
 
 # Build the image file
 # Currently hardcoded to a 1.75GiB image
