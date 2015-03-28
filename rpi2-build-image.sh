@@ -145,6 +145,7 @@ rm -f $R/var/lib/urandom/random-seed
 [ -L $R/var/lib/dbus/machine-id ] || rm -f $R/var/lib/dbus/machine-id
 rm -f $R/etc/machine-id
 rm -f $R/usr/bin/qemu-arm-static
+rm -f $R/etc/ssh/ssh_host_*
 rm -fr $R/usr/sbin/policy-rc.d
 
 # Build the image file
