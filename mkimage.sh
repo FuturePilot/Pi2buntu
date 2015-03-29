@@ -51,7 +51,7 @@ rm -f $R/var/lib/urandom/random-seed
 rm -f $R/etc/machine-id
 rm -f $R/usr/bin/qemu-arm-static
 rm -f $R/etc/ssh/ssh_host_*
-rm -f $R/var/swap
+rm -fr $R/usr/sbin/policy-rc.d
 
 # Build the image file
 # Currently hardcoded to a 1.75GiB image
@@ -80,6 +80,5 @@ umount "$MOUNTDIR/boot/firmware"
 umount "$MOUNTDIR"
 losetup -d "$EXT4_LOOP"
 losetup -d "$VFAT_LOOP"
-if which bmaptool; then
-  bmaptool create -o "$BASEDIR/${DATE}-ubuntu-${RELEASE}.bmap" "$BASEDIR/${DATE}-ubuntu-${RELEASE}.img"
-fi
+bmaptool create -o "$BASEDIR/${DATE}-ubuntu-${RELEASE}.bmap" "$BASEDIR/${DATE}-ubuntu-${RELEASE}.img"
+
