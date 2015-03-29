@@ -40,11 +40,7 @@ mkdir -p $R
 
 # Base debootstrap
 apt-get -y install ubuntu-keyring
-if [ -n "$LOCAL_MIRROR" ]; then
-  debootstrap $RELEASE $R $LOCAL_MIRROR
-else
-  qemu-debootstrap --arch armhf $RELEASE $R http://ports.ubuntu.com/
-fi
+qemu-debootstrap --arch armhf $RELEASE $R http://ports.ubuntu.com/
 
 # Mount required filesystems
 mount -t proc none $R/proc
