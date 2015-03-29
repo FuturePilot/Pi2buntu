@@ -39,7 +39,7 @@ R=${BUILDDIR}/chroot
 mkdir -p $R
 
 # Base debootstrap
-apt-get -y install ubuntu-keyring
+apt-get -y install ubuntu-keyring debootstrap bmap-tools qemu-user-static
 qemu-debootstrap --arch armhf $RELEASE $R http://ports.ubuntu.com/
 
 # Mount required filesystems
