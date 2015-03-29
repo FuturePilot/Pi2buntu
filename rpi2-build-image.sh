@@ -171,8 +171,7 @@ umount "$MOUNTDIR/boot/firmware"
 umount "$MOUNTDIR"
 losetup -d "$EXT4_LOOP"
 losetup -d "$VFAT_LOOP"
-if which bmaptool; then
-  bmaptool create -o "$BASEDIR/${DATE}-ubuntu-${RELEASE}.bmap" "$BASEDIR/${DATE}-ubuntu-${RELEASE}.img"
-fi
+bmaptool create -o "$BASEDIR/${DATE}-ubuntu-${RELEASE}.bmap" "$BASEDIR/${DATE}-ubuntu-${RELEASE}.img"
+
 
 # Done!
