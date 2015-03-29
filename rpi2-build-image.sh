@@ -163,7 +163,7 @@ unit: sectors
 EOM
 VFAT_LOOP="$(losetup -o 1M --sizelimit 64M -f --show $BASEDIR/${DATE}-ubuntu-${RELEASE}.img)"
 EXT4_LOOP="$(losetup -o 65M --sizelimit 1727M -f --show $BASEDIR/${DATE}-ubuntu-${RELEASE}.img)"
-mkfs.vfat -n boot "$VFAT_LOOP"
+mkfs.vfat -n BOOT "$VFAT_LOOP"
 mkfs.ext4 -L rootfs "$EXT4_LOOP"
 MOUNTDIR="$BUILDDIR/mount"
 mkdir -p "$MOUNTDIR"
