@@ -57,17 +57,14 @@ cat ./configs/etc/apt/sources.list > $R/etc/apt/sources.list
 cat ./configs/usr/sbin/policy-rc.d > $R/usr/sbin/policy-rc.d
 chmod +x $R/usr/sbin/policy-rc.d
 
-# Initial update/upgrade
+# Update, upgrade, and set up PPAs
 chroot $R $SHELL -c "apt-get update"
 chroot $R $SHELL -c "apt-get -y install software-properties-common ubuntu-keyring"
 chroot $R $SHELL -c "apt-add-repository -y ppa:futurepilot/raspberry-pi-2"
-chroot $R $SHELL -c "apt-get update"
-chroot $R $SHELL -c "apt-get -y -u dist-upgrade"
-
-# Install the RPi PPA
 cat ./configs/etc/apt/preferences.d/rpi2-ppa > $R/etc/apt/preferences.d/rpi2-ppa
 chroot $R $SHELL -c "apt-add-repository -y ppa:fo0bar/rpi2"
 chroot $R $SHELL -c "apt-get update"
+chroot $R $SHELL -c "apt-get -y -u dist-upgrade"
 
 # Standard packages
 chroot $R $SHELL -c "apt-get -y install ubuntu-standard initramfs-tools raspberrypi-bootloader-nokernel rpi2-ubuntu-errata language-pack-en openssh-server wpasupplicant linux-firmware libraspberrypi-bin libraspberrypi-bin-nonfree dphys-swapfile fake-hwclock"
