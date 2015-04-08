@@ -1,4 +1,4 @@
- Package: *
+Package: *
 Pin: release o=LP-PPA-fo0bar-rpi2
 Pin-Priority: 990
 
