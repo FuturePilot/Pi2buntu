@@ -22,7 +22,7 @@
 set -e
 set -x
 
-RELEASE=utopic
+RELEASE=vivid
 BASEDIR=/srv/rpi2/${RELEASE}
 BUILDDIR=${BASEDIR}/build
 SHELL=/bin/bash
@@ -59,6 +59,8 @@ chmod +x $R/usr/sbin/policy-rc.d
 
 # Update, upgrade, and set up PPAs
 chroot $R $SHELL -c "apt-get update"
+# I do not know why the hell python 3.4 is failing to install in debootstrap but this will work around the problem until I figure out why
+chroot $R $SHELL -c "apt-get install -y -f"
 chroot $R $SHELL -c "apt-get -y install software-properties-common ubuntu-keyring"
 chroot $R $SHELL -c "apt-add-repository -y ppa:futurepilot/raspberry-pi-2"
 cat ./configs/etc/apt/preferences.d/rpi2-ppa > $R/etc/apt/preferences.d/rpi2-ppa
