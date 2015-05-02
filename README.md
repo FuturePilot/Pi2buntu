@@ -21,7 +21,7 @@ This setup uses the official Raspberry Pi kernel and not Ubuntu's kernel. These 
 
 **Custom Tweaks**
 
-There are a few custom tweaks that have been included.
+There are a few custom tweaks that have been included. 
 
  - The sound module `snd_bcm2835` is loaded by default.
  - `snd_soc_pcm512x_i2c` `snd_soc_pcm512x` `snd_soc_tas5713` `snd_soc_wm8804` have been blacklisted as they are not applicable to the Raspberry Pi 2
@@ -33,10 +33,12 @@ There are a few custom tweaks that have been included.
  - raspi-config
  There is no raspi-config so any of the things that it does will need to be done manually. However porting it over is something I would like to do eventually.
 
+###Upgrading to new Ubuntu releases
+See the [wiki page](https://github.com/FuturePilot/Pi2buntu/wiki/Upgrading-to-new-Ubuntu-releases) on how to do this
+
 ###Special Thanks
 Not all of this is my work so this is to give credit where credit is due.
 
  - wintrmute for the resize_rootfs.sh script
  - Ryan Finnie for the Raspberry Pi 2 PPA and for creating the original script this one is based on
  - [https://wiki.ubuntu.com/UbuntuDevelopment/Ports](https://wiki.ubuntu.com/UbuntuDevelopment/Ports) for the `qemu-arm-static` idea
- - [pbuilder](http://pbuilder.alioth.debian.org/) for preventing daemons from starting up inside the chroot.
