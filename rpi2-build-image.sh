@@ -220,6 +220,9 @@ mount "$VFAT_LOOP" "$MOUNTDIR/boot/firmware"
 rsync -a "$R/" "$MOUNTDIR/"
 
 umount "$MOUNTDIR/boot/firmware"
+
+#To keep a copy of $R/boot/Firmware folder inside the EXT4 folder as a backup/reference
+rsync -a "$R/boot/firmware/" "$MOUNTDIR/boot/firmware/"
 umount "$MOUNTDIR"
 
 kpartx -d $image
