@@ -2,6 +2,7 @@
 
 ###########################################################################################################
 # rpi2-build-image
+# Copyright (C) 2015 Ryan Finnie <ryan@finnie.org>
 # Copyright (C) 2015 Saeid Ghazagh <sghazagh@elar-systems.com>
 #
 # This program is free software; you can redistribute it and/or
