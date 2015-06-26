@@ -2,3 +2,12 @@ proc            /proc           proc    defaults          0       0
 #Wrong Entry - Causing to boot to Emergency Mode
 #LABEL=rootfs    /               ext4    defaults,noatime,errors=remount-ro  0       1
 #LABEL=boot      /boot/firmware  vfat    defaults          0       2
+
+#Not required - Better having with UUID if you want to
+#check the UUID of partitions by using 'blkid' command and ad them like this:
+#UUID=<rootfs Partition UUID>  /               ext4    defaults,noatime,errors=remount-ro  0       1
+#UUID=<VFat Partition UUID>   /boot/firmware  vfat    defaults          0       2
+#Sample:
+#UUID=413d80c9-8dd5-4214-abca-824046c2854c  /               ext4    defaults,noatime,errors=remount-ro  0       1
+#UUID=D783-C0DE   /boot/firmware  vfat    defaults          0       2
+
