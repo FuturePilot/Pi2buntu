@@ -62,6 +62,10 @@ BOOTSIZE=64
 MIN_PARTITION_FREE_SIZE=10
 #-------------------------------
 
+#Write the "bootsize" value into the file. 
+# The value will be used for EXT4 partition start sector calculation by "resize_rootfs.sh" script. 
+echo $bootsize>$R/root/vfat_part_size
+
 ROOTFSPATH=$R
 echo "Creating RPi2 SDCard Image ..."
 echo "=======================================" 
