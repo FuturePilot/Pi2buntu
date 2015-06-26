@@ -1,3 +1,4 @@
 proc            /proc           proc    defaults          0       0
-LABEL=rootfs    /               ext4    defaults,noatime,errors=remount-ro  0       1
-LABEL=boot      /boot/firmware  vfat    defaults          0       2
+#Wrong Entry - Causing to boot to Emergency Mode
+#LABEL=rootfs    /               ext4    defaults,noatime,errors=remount-ro  0       1
+#LABEL=boot      /boot/firmware  vfat    defaults          0       2
