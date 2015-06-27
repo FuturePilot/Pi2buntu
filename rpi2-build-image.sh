@@ -151,15 +151,15 @@ rm -fr $R/usr/sbin/policy-rc.d
 
 ###### Build the image file ######
 #--- Adjust as per your need ----
-bootsize=64
+BOOTSIZE=64
 MIN_PARTITION_FREE_SIZE=10
 ROOTFSPATH=$R
 #-------------------------------
 
 
-#Write the "bootsize" value into the file. 
+#Write the "BOOTSIZE" value into the file. 
 # The value will be used for EXT4 partition start sector calculation by "resize_rootfs.sh" script. 
-echo $bootsize>$R/root/vfat_part_size
+echo $BOOTSIZE>$R/root/vfat_part_size
 
 echo "Creating RPi2 SDCard Image ..."
 echo "=======================================" 
@@ -171,11 +171,11 @@ EXT_SIZE=`sudo du -DsB1 ${ROOTFSPATH} | awk -v min=$MIN_PARTITION_FREE_SIZE -v f
 echo "rootfs -->" ${ROOTFSPATH}
 echo "Number of files -->" ${NUMBER_OF_FILES}
 
-BOOT_SIZE=$bootsize"M"
+BOOT_SIZE=$BOOTSIZE"M"
 echo "Size of Partition 1 -->" $BOOT_SIZE
 echo "Size of Partition 2 -->" ${EXT_SIZE}"M"
 
-SD_SIZE=$(($bootsize + $EXT_SIZE))
+SD_SIZE=$(($BOOTSIZE + $EXT_SIZE))
 echo "Total Size of SD Card Image -->" $SD_SIZE"M"
 sleep 5
 image="$BASEDIR/${DATE}-ubuntu-${RELEASE}.img"
