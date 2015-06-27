@@ -1,8 +1,9 @@
 #!/bin/sh
 
-########################################################################
+###########################################################################################################
 # rpi2-build-image
 # Copyright (C) 2015 Ryan Finnie <ryan@finnie.org>
+# Copyright (C) 2015 Saeid Ghazagh <sghazagh@elar-systems.com>
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -17,15 +18,17 @@
 # You should have received a copy of the GNU General Public License
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
-########################################################################
+##########################################################################################################
+#    See "###### Build the image file ######" sction to adjust SD Card sizes as per your requirement     #
+##########################################################################################################
 
 # This is a stub from rpi-build-image.sh. Useful for rebuilding the image after making minor changes that don't 
 # require the entire chroot be rebuilt
 
-set -e
-set -x
+#set -e
+#set -x
 
-RELEASE=utopic
+RELEASE=vivid
 BASEDIR=/srv/rpi2/${RELEASE}
 BUILDDIR=${BASEDIR}/build
 SHELL=/bin/bash
@@ -53,32 +56,89 @@ rm -f $R/usr/bin/qemu-arm-static
 rm -f $R/etc/ssh/ssh_host_*
 rm -fr $R/usr/sbin/policy-rc.d
 
-# Build the image file
-# Currently hardcoded to a 1.75GiB image
-DATE="$(date +%Y-%m-%d)"
-dd if=/dev/zero of="$BASEDIR/${DATE}-ubuntu-${RELEASE}.img" bs=1M count=1
-dd if=/dev/zero of="$BASEDIR/${DATE}-ubuntu-${RELEASE}.img" bs=1M count=0 seek=1792
-sfdisk -f "$BASEDIR/${DATE}-ubuntu-${RELEASE}.img" <<EOM
-unit: sectors
+###### Build the image file ######
+#--- Adjust as per your need ----
+BOOTSIZE=64
+MIN_PARTITION_FREE_SIZE=10
+#-------------------------------
 
-1 : start=     2048, size=   131072, Id= c, bootable
-2 : start=   133120, size=  3536896, Id=83
-3 : start=        0, size=        0, Id= 0
-4 : start=        0, size=        0, Id= 0
-EOM
-VFAT_LOOP="$(losetup -o 1M --sizelimit 64M -f --show $BASEDIR/${DATE}-ubuntu-${RELEASE}.img)"
-EXT4_LOOP="$(losetup -o 65M --sizelimit 1727M -f --show $BASEDIR/${DATE}-ubuntu-${RELEASE}.img)"
-mkfs.vfat "$VFAT_LOOP"
-mkfs.ext4 "$EXT4_LOOP"
+#Write the "BOOTSIZE" value into the file. 
+# The value will be used for EXT4 partition start sector calculation by "resize_rootfs.sh" script. 
+echo $BOOTSIZE>$R/root/vfat_part_size
+
+ROOTFSPATH=$R
+echo "Creating RPi2 SDCard Image ..."
+echo "=======================================" 
+DATE="$(date +%Y-%m-%d)"
+NUMBER_OF_FILES=`sudo find ${ROOTFSPATH} | wc -l`
+EXT_SIZE=`sudo du -DsB1 ${ROOTFSPATH} | awk -v min=$MIN_PARTITION_FREE_SIZE -v f=${NUMBER_OF_FILES} \
+	'{rootfs_size=$1+f*512;rootfs_size=int(rootfs_size/1024/985); print (rootfs_size+min) }'`
+
+echo "rootfs -->" ${ROOTFSPATH}
+echo "Number of files -->" ${NUMBER_OF_FILES}
+
+BOOT_SIZE=$BOOTSIZE"M"
+echo "Size of Partition 1 -->" $BOOT_SIZE
+echo "Size of Partition 2 -->" ${EXT_SIZE}"M"
+
+SD_SIZE=$(($BOOTSIZE + $EXT_SIZE))
+echo "Total Size of SD Card Image -->" $SD_SIZE"M"
+sleep 5
+image="$BASEDIR/${DATE}-ubuntu-${RELEASE}.img"
+bmap="$BASEDIR/${DATE}-ubuntu-${RELEASE}.bmap"
+
+dd if=/dev/zero of=$image bs=1M count=${SD_SIZE}
+device=`losetup -f --show $image`
+echo "Image $image created and mounted as $device ..."
+
+fdisk $device << EOF
+n
+p
+1
+
++$BOOT_SIZE
+t
+c
+n
+p
+2
+
+
+a
+1
+w
+EOF
+
+losetup -d $device
+device=`kpartx -va $image | sed -E 's/.*(loop[0-9])p.*/\1/g' | head -1`
+device="/dev/mapper/${device}"
+echo ${device}
+
+VFAT_LOOP=${device}p1
+EXT4_LOOP=${device}p2
+
+mkfs.vfat -n BOOT $VFAT_LOOP
+mkfs.ext4 -L rootfs $EXT4_LOOP
+
 MOUNTDIR="$BUILDDIR/mount"
+
 mkdir -p "$MOUNTDIR"
 mount "$EXT4_LOOP" "$MOUNTDIR"
+
 mkdir -p "$MOUNTDIR/boot/firmware"
 mount "$VFAT_LOOP" "$MOUNTDIR/boot/firmware"
+
 rsync -a "$R/" "$MOUNTDIR/"
+
 umount "$MOUNTDIR/boot/firmware"
 umount "$MOUNTDIR"
-losetup -d "$EXT4_LOOP"
-losetup -d "$VFAT_LOOP"
-bmaptool create -o "$BASEDIR/${DATE}-ubuntu-${RELEASE}.bmap" "$BASEDIR/${DATE}-ubuntu-${RELEASE}.img"
 
+kpartx -d $image
+
+bmaptool create -o "$bmap" "$image"
+
+echo =============================================================================
+echo "Created image $image"
+echo =============================================================================
+
+#Done
